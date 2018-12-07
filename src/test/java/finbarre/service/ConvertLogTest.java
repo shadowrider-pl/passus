@@ -72,12 +72,22 @@ public class ConvertLogTest {
     }
     
     @Test
-    public void convertTest() throws Exception {
+    public void addCheckedStatusTest() throws Exception {
     	ConvertLog convertLog = new ConvertLog();
     	passusLog=convertLog.addCheckedStatus(passusLog);
     assertThat(passusLog.getTime()).isEqualTo(DEFAULT_TIME);
     assertThat(passusLog.getName()).isEqualTo(DEFAULT_NAME);
     assertThat(passusLog.getValue()).isEqualTo(UPDATED_VALUE);
+    }
+    
+    @Test
+    public void removeStatusTest() throws Exception {
+    	ConvertLog convertLog = new ConvertLog();
+    	passusLog=convertLog.addCheckedStatus(passusLog);
+    	passusLog=convertLog.removeCheckedStatus(passusLog);
+    assertThat(passusLog.getTime()).isEqualTo(DEFAULT_TIME);
+    assertThat(passusLog.getName()).isEqualTo(DEFAULT_NAME);
+    assertThat(passusLog.getValue()).isEqualTo(DEFAULT_VALUE);
     }
 
 }
