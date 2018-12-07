@@ -17,7 +17,8 @@
             },
             "time": "Time",
             "name": "Name",
-            "value": "Value"
+            "value": "Value",
+            "convertLog": "Convert Log"
         }
     }
 }

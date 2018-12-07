@@ -5,6 +5,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IConvertPassusLog } from 'app/shared/model/convert-passus-log.model';
 import { Principal } from 'app/core';
+import { IPassusLog } from 'app/shared/model/passus-log.model';
+import { PassusLogService } from '../passus-log/passus-log.service';
 import { ConvertPassusLogService } from './convert-passus-log.service';
 
 @Component({
@@ -12,21 +14,24 @@ import { ConvertPassusLogService } from './convert-passus-log.service';
     templateUrl: './convert-passus-log.component.html'
 })
 export class ConvertPassusLogComponent implements OnInit, OnDestroy {
-    convertPassusLogs: IConvertPassusLog[];
+    passusLogs: IPassusLog[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
     constructor(
         private convertPassusLogService: ConvertPassusLogService,
+        private passusLogService: PassusLogService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
     ) {}
 
+    convertLog(id) {}
+
     loadAll() {
-        this.convertPassusLogService.query().subscribe(
-            (res: HttpResponse<IConvertPassusLog[]>) => {
-                this.convertPassusLogs = res.body;
+        this.passusLogService.query().subscribe(
+            (res: HttpResponse<IPassusLog[]>) => {
+                this.passusLogs = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -44,7 +49,7 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IConvertPassusLog) {
+    trackId(index: number, item: IPassusLog) {
         return item.id;
     }
 
