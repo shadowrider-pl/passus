@@ -1,0 +1,23 @@
+{
+    "passusApp": {
+        "passusLog": {
+            "home": {
+                "title": "Passus Logs",
+                "createLabel": "Create a new Passus Log",
+                "createOrEditLabel": "Create or edit a Passus Log"
+            },
+            "created": "A new Passus Log is created with identifier {{ param }}",
+            "updated": "A Passus Log is updated with identifier {{ param }}",
+            "deleted": "A Passus Log is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Passus Log {{ id }}?"
+            },
+            "detail": {
+                "title": "Passus Log"
+            },
+            "time": "Time",
+            "name": "Name",
+            "value": "Value"
+        }
+    }
+}
