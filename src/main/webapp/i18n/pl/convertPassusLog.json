@@ -1,0 +1,23 @@
+{
+    "passusApp": {
+        "convertPassusLog": {
+            "home": {
+                "title": "Convert Passus Log",
+                "createLabel": "Dodaj Convert Passus Log",
+                "createOrEditLabel": "Dodaj lub edytuj: Convert Passus Log"
+            },
+            "created": "Utworzono nowy obiekt typu Convert Passus Log z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Convert Passus Log z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Convert Passus Log z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Convert Passus Log {{ id }}?"
+            },
+            "detail": {
+                "title": "Convert Passus Log"
+            },
+            "time": "Time",
+            "name": "Name",
+            "value": "Value"
+        }
+    }
+}

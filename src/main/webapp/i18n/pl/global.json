@@ -8,6 +8,7 @@
             "entities": {
                 "main": "Encje",
                 "passusLog": "Passus Log",
+                "convertPassusLog": "Convert Passus Log",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
