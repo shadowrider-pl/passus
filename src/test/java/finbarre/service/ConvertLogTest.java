@@ -74,7 +74,7 @@ public class ConvertLogTest {
     @Test
     public void convertTest() throws Exception {
     	ConvertLog convertLog = new ConvertLog();
-    	passusLog=convertLog.convert(passusLog);
+    	passusLog=convertLog.addCheckedStatus(passusLog);
     assertThat(passusLog.getTime()).isEqualTo(DEFAULT_TIME);
     assertThat(passusLog.getName()).isEqualTo(DEFAULT_NAME);
     assertThat(passusLog.getValue()).isEqualTo(UPDATED_VALUE);
