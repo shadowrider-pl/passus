@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "finbarre",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.6.0",
+    "applicationType": "monolith",
+    "baseName": "Passus",
+    "packageName": "finbarre",
+    "packageFolder": "finbarre",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MTNiMmMwZGEzNzU4NmZkNzY5NWU0MTE0ZTFkOGEzYTA0YTNkYTdiYzNhYmY4NDA1MmI5YzVmMDVlZGEyNTc2NjdhOTQ2N2UwZGUzZDY4ZWIwN2NjNjQ1M2M0YjUxYjdiYjkyNjMxNjkxMGNjNWU0MGNkMGFjYmE4MGJlMDJhMzM=",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "pl"
+    ]
+  }
+}
