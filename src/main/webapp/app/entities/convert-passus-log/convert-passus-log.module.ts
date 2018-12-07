@@ -4,31 +4,16 @@ import { RouterModule } from '@angular/router';
 import { PassusSharedModule } from 'app/shared';
 import {
     ConvertPassusLogComponent,
-    ConvertPassusLogDetailComponent,
-    ConvertPassusLogUpdateComponent,
-    ConvertPassusLogDeletePopupComponent,
-    ConvertPassusLogDeleteDialogComponent,
-    convertPassusLogRoute,
-    convertPassusLogPopupRoute
+    convertPassusLogRoute
+    // convertPassusLogPopupRoute
 } from './';
 
-const ENTITY_STATES = [...convertPassusLogRoute, ...convertPassusLogPopupRoute];
+const ENTITY_STATES = [...convertPassusLogRoute];
 
 @NgModule({
     imports: [PassusSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        ConvertPassusLogComponent,
-        ConvertPassusLogDetailComponent,
-        ConvertPassusLogUpdateComponent,
-        ConvertPassusLogDeleteDialogComponent,
-        ConvertPassusLogDeletePopupComponent
-    ],
-    entryComponents: [
-        ConvertPassusLogComponent,
-        ConvertPassusLogUpdateComponent,
-        ConvertPassusLogDeleteDialogComponent,
-        ConvertPassusLogDeletePopupComponent
-    ],
+    declarations: [ConvertPassusLogComponent],
+    entryComponents: [ConvertPassusLogComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PassusConvertPassusLogModule {}

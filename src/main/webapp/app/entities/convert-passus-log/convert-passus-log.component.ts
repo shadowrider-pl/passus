@@ -8,6 +8,8 @@ import { Principal } from 'app/core';
 import { IPassusLog } from 'app/shared/model/passus-log.model';
 import { PassusLogService } from '../passus-log/passus-log.service';
 import { ConvertPassusLogService } from './convert-passus-log.service';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-convert-passus-log',
@@ -15,8 +17,11 @@ import { ConvertPassusLogService } from './convert-passus-log.service';
 })
 export class ConvertPassusLogComponent implements OnInit, OnDestroy {
     passusLogs: IPassusLog[];
+    convertPassusLog: IConvertPassusLog;
     currentAccount: any;
     eventSubscriber: Subscription;
+    time: string;
+    isSaving: boolean;
 
     constructor(
         private convertPassusLogService: ConvertPassusLogService,
@@ -26,7 +31,16 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
         private principal: Principal
     ) {}
 
-    convertLog(id) {}
+    convertLog(log) {
+        this.isSaving = false;
+        if (log.id !== undefined) {
+            this.subscribeToSaveResponse(this.convertPassusLogService.update(log));
+        }
+    }
+
+    private subscribeToSaveResponse(result: Observable<HttpResponse<IConvertPassusLog>>) {
+        result.subscribe((res: HttpResponse<IConvertPassusLog>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
 
     loadAll() {
         this.passusLogService.query().subscribe(
@@ -59,5 +73,17 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    private onSaveSuccess() {
+        this.isSaving = false;
+        this.eventManager.broadcast({
+            name: 'convertPassusLogListModification',
+            content: 'Deleted an passusLog'
+        });
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 }

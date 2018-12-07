@@ -7,9 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { ConvertPassusLog } from 'app/shared/model/convert-passus-log.model';
 import { ConvertPassusLogService } from './convert-passus-log.service';
 import { ConvertPassusLogComponent } from './convert-passus-log.component';
-import { ConvertPassusLogDetailComponent } from './convert-passus-log-detail.component';
-import { ConvertPassusLogUpdateComponent } from './convert-passus-log-update.component';
-import { ConvertPassusLogDeletePopupComponent } from './convert-passus-log-delete-dialog.component';
 import { IConvertPassusLog } from 'app/shared/model/convert-passus-log.model';
 
 @Injectable({ providedIn: 'root' })
@@ -37,57 +34,57 @@ export const convertPassusLogRoute: Routes = [
             pageTitle: 'passusApp.convertPassusLog.home.title'
         },
         canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'convert-passus-log/:id/view',
-        component: ConvertPassusLogDetailComponent,
-        resolve: {
-            convertPassusLog: ConvertPassusLogResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'passusApp.convertPassusLog.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'convert-passus-log/new',
-        component: ConvertPassusLogUpdateComponent,
-        resolve: {
-            convertPassusLog: ConvertPassusLogResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'passusApp.convertPassusLog.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'convert-passus-log/:id/edit',
-        component: ConvertPassusLogUpdateComponent,
-        resolve: {
-            convertPassusLog: ConvertPassusLogResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'passusApp.convertPassusLog.home.title'
-        },
-        canActivate: [UserRouteAccessService]
     }
+    // {
+    //     path: 'convert-passus-log/:id/view',
+    //     component: ConvertPassusLogDetailComponent,
+    //     resolve: {
+    //         convertPassusLog: ConvertPassusLogResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'passusApp.convertPassusLog.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
+    // {
+    //     path: 'convert-passus-log/new',
+    //     component: ConvertPassusLogUpdateComponent,
+    //     resolve: {
+    //         convertPassusLog: ConvertPassusLogResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'passusApp.convertPassusLog.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
+    // {
+    //     path: 'convert-passus-log/:id/edit',
+    //     component: ConvertPassusLogUpdateComponent,
+    //     resolve: {
+    //         convertPassusLog: ConvertPassusLogResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'passusApp.convertPassusLog.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // }
 ];
 
-export const convertPassusLogPopupRoute: Routes = [
-    {
-        path: 'convert-passus-log/:id/delete',
-        component: ConvertPassusLogDeletePopupComponent,
-        resolve: {
-            convertPassusLog: ConvertPassusLogResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'passusApp.convertPassusLog.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
-];
+// export const convertPassusLogPopupRoute: Routes = [
+//     {
+//         path: 'convert-passus-log/:id/delete',
+//         component: ConvertPassusLogDeletePopupComponent,
+//         resolve: {
+//             convertPassusLog: ConvertPassusLogResolve
+//         },
+//         data: {
+//             authorities: ['ROLE_USER'],
+//             pageTitle: 'passusApp.convertPassusLog.home.title'
+//         },
+//         canActivate: [UserRouteAccessService],
+//         outlet: 'popup'
+//     }
+// ];
