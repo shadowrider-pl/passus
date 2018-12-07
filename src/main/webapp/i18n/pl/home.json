@@ -1,6 +1,6 @@
 {
     "home": {
-        "title": "Witamy, Java Hipsterze!",
+        "title": "Witamy w Passus!",
         "subtitle": "To jest twoja strona domowa",
         "logged": {
             "message": "Jesteś zalogowany jako użytkownik \"{{username}}\"."
@@ -14,6 +14,8 @@
             "follow": "skontaktuj się z @java_hipster na Twitterze"
         },
         "like": "Jeśli lubisz JHipster, nie zapomnij dać nam gwiazdki na",
-        "github": "GitHubie"
+        "github": "GitHubie",
+        "convertYourLogs": "Przekształć swoje logi teraz!",
+        "viewYourLogs": "Zobacz swoje logi"
     }
 }
