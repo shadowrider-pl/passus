@@ -21,7 +21,10 @@
             "convertLog": "Przekształć log",
             "upload": "Prześlij",
             "fileToUpload": "Wybierz plik:",
-            "sendFileToServer": "Prześlij plik na serwer"
+            "sendFileToServer": "Prześlij plik na serwer",
+            "showFiles": "Pokaż pliki",
+            "hideFiles": "Ukryj pliki",
+            "listOfFiles": "Lista plików:"
         }
     }
 }

@@ -26,7 +26,7 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
     currentFileUpload: File;
     progress: { percentage: number } = { percentage: 0 };
     showFile = false;
-    fileUploads: Observable<string[]>;
+    fileUploads: String[];
 
     constructor(
         private convertPassusLogService: ConvertPassusLogService,
@@ -63,7 +63,12 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
         this.showFile = enable;
 
         if (enable) {
-            this.fileUploads = this.logFilesService.getFiles();
+            this.logFilesService.getFiles().subscribe(
+                (res: HttpResponse<String[]>) => {
+                    this.fileUploads = res.body;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         }
     }
 

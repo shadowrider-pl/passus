@@ -23,9 +23,31 @@
 
         <button class="btn btn-outline-success" [disabled]="!selectedFiles" (click)="upload()">
             <fa-icon [icon]="'asterisk'"></fa-icon>
-            <span class="d-none d-md-inline" jhiTranslate="passusApp.passusLog.upload">upload</span>
+            <span jhiTranslate="passusApp.passusLog.upload">upload</span>
         </button>
+        <br>
+        <hr>
+        <div>
+            <button class="btn btn-info" *ngIf="showFile" (click)="showFiles(false)">
+                <span jhiTranslate="passusApp.passusLog.hideFiles">Hide Files</span>
+            </button>
+            <button class="btn btn-info" *ngIf="!showFile" (click)="showFiles(true)">
+                <span jhiTranslate="passusApp.passusLog.showFiles">Show Files</span>
+            </button>
+        </div><br>
 
+        <div [hidden]="!showFile">
+            <div class="">
+                <h3>
+                    <span jhiTranslate="passusApp.passusLog.listOfFiles">listOfFiles</span>
+                </h3>
+                <div *ngFor="let file of fileUploads">
+                    <div class="">
+                        {{file}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

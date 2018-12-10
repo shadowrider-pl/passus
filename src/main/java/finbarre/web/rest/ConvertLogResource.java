@@ -26,7 +26,7 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ConvertLogResource {
 
-	private final Logger log = LoggerFactory.getLogger(PassusLogResource.class);
+	private final Logger log = LoggerFactory.getLogger(ConvertLogResource.class);
 
 	private static final String ENTITY_NAME = "passusLog";
 

@@ -1,14 +1,15 @@
 package finbarre.web.rest;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codahale.metrics.annotation.Timed;
+
+import finbarre.storage.FileSystemStorageService;
 import finbarre.storage.StorageFileNotFoundException;
-import finbarre.storage.StorageService;
 
 
 
@@ -29,37 +32,43 @@ import finbarre.storage.StorageService;
 @RequestMapping("/api")
 public class FileUploadController {
 
-    private final StorageService storageService;
+    private final FileSystemStorageService storageService;
+
+	private final Logger log = LoggerFactory.getLogger(ConvertLogResource.class);
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(FileSystemStorageService storageService) {
         this.storageService = storageService;
     }
 
     @GetMapping("/log-files")
-    public String listUploadedFiles(Model model) throws IOException {
-
-        model.addAttribute("files", storageService.loadAll().map(
+    @Timed
+	public  ResponseEntity<List<String>> getListFiles() {
+		log.debug("REST request to get all files.");
+        
+        List<String> fileNames = storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList()));
+                        "getFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList());
 
-        return "uploadForm";
+        return ResponseEntity.ok().body(fileNames);
     }
-
-    @GetMapping("/log-files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
+    
+   	@GetMapping("/log-files/{filename:.+}")
+   	@ResponseBody
+   	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+		log.debug("REST request to get file : {}", filename);
+   		Resource file = storageService.loadAsResource(filename);
+   		return ResponseEntity.ok()
+   				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+   				.body(file);
+   	}
 
     @PostMapping("/log-files")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
+		log.debug("REST request to upload file : {}", file.getOriginalFilename());
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");

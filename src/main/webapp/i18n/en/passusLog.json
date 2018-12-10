@@ -21,7 +21,10 @@
             "convertLog": "Convert Log",
             "upload": "Upload",
             "fileToUpload": "File to upload:",
-            "sendFileToServer": "Send file to server"
+            "sendFileToServer": "Send file to server",
+            "showFiles": "Show files",
+            "hideFiles": "Hide files",
+            "listOfFiles": "List of Files:"
         }
     }
 }
