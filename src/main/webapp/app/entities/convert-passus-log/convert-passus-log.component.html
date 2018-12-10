@@ -4,6 +4,31 @@
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
+
+
+
+    <div class="alert alert-warning">
+        <h3>
+            <span jhiTranslate="passusApp.passusLog.sendFileToServer">sendFileToServer</span>
+        </h3>
+        <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%</div>
+        </div>
+
+        <label class="btn btn-default">
+            <input type="file" (change)="selectFile($event)">
+        </label>
+
+        <button class="btn btn-outline-success" [disabled]="!selectedFiles" (click)="upload()">
+            <fa-icon [icon]="'asterisk'"></fa-icon>
+            <span class="d-none d-md-inline" jhiTranslate="passusApp.passusLog.upload">upload</span>
+        </button>
+
+    </div>
+
+
     <div class="table-responsive" *ngIf="passusLogs">
         <table class="table table-striped">
             <thead>
@@ -45,4 +70,3 @@
             </tbody>
         </table>
     </div>
-</div>

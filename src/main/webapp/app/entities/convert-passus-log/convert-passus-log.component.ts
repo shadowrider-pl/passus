@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
@@ -8,8 +8,8 @@ import { Principal } from 'app/core';
 import { IPassusLog } from 'app/shared/model/passus-log.model';
 import { PassusLogService } from '../passus-log/passus-log.service';
 import { ConvertPassusLogService } from './convert-passus-log.service';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LogFilesService } from 'app/entities/convert-passus-log/log-files.service';
 
 @Component({
     selector: 'jhi-convert-passus-log',
@@ -22,14 +22,50 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
     time: string;
     isSaving: boolean;
+    selectedFiles: FileList;
+    currentFileUpload: File;
+    progress: { percentage: number } = { percentage: 0 };
+    showFile = false;
+    fileUploads: Observable<string[]>;
 
     constructor(
         private convertPassusLogService: ConvertPassusLogService,
         private passusLogService: PassusLogService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
-        private principal: Principal
+        private principal: Principal,
+        private logFilesService: LogFilesService
     ) {}
+
+    selectFile(event) {
+        this.selectedFiles = event.target.files;
+    }
+
+    upload() {
+        this.progress.percentage = 0;
+
+        this.currentFileUpload = this.selectedFiles.item(0);
+        this.logFilesService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+            if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+            } else if (event instanceof HttpResponse) {
+                console.log('File is completely uploaded!');
+            }
+        });
+
+        this.selectedFiles = undefined;
+        setTimeout(() => {
+            this.currentFileUpload = null;
+        }, 3000);
+    }
+
+    showFiles(enable: boolean) {
+        this.showFile = enable;
+
+        if (enable) {
+            this.fileUploads = this.logFilesService.getFiles();
+        }
+    }
 
     convertLog(log) {
         this.isSaving = false;

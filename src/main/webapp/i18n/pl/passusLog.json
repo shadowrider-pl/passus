@@ -18,7 +18,10 @@
             "time": "Time",
             "name": "Name",
             "value": "Value",
-            "convertLog": "Przekształć log"
+            "convertLog": "Przekształć log",
+            "upload": "Prześlij",
+            "fileToUpload": "Wybierz plik:",
+            "sendFileToServer": "Prześlij plik na serwer"
         }
     }
 }
