@@ -1,7 +1,7 @@
 {
     "passusApp": {
         "sendFileToServer": {
-            "deleted": "File is deleted"
+            "deleted": "Plik został usunięty"
         }
     }
 }

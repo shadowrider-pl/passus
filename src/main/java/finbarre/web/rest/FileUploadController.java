@@ -1,5 +1,6 @@
 package finbarre.web.rest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import finbarre.storage.FileSystemStorageService;
 import finbarre.storage.StorageFileNotFoundException;
+import finbarre.web.rest.util.HeaderUtil;
 
 
 
@@ -39,6 +42,22 @@ public class FileUploadController {
     @Autowired
     public FileUploadController(FileSystemStorageService storageService) {
         this.storageService = storageService;
+    }
+
+    /**
+     * DELETE  /log-files/:file : delete the file.
+     *
+     * @param file the file of the file to delete
+     * @return the ResponseEntity with status 200 (OK)
+     * @throws IOException 
+     */
+    @DeleteMapping("/log-files/{file}")
+    @Timed
+    public ResponseEntity<Void> deletePassusLog(@PathVariable String file) throws IOException {
+        log.debug("REST request to delete PassusLog : {}", file);
+        final String filename = file;
+        storageService.delete(file);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("sendFileToServer", filename)).build();
     }
 
     @GetMapping("/log-files")

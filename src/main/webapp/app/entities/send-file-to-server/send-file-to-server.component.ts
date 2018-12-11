@@ -29,6 +29,17 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
         private sendFileToServerService: SendFileToServerService
     ) {}
 
+    deleteFile(file) {
+        const lastIndex = file.lastIndexOf('/');
+        file = file.substring(lastIndex + 1);
+        this.sendFileToServerService.delete(file).subscribe(response => {
+            this.eventManager.broadcast({
+                name: 'fileListModification',
+                content: 'Deleted an file'
+            });
+        });
+    }
+
     selectFile(event) {
         this.selectedFiles = event.target.files;
     }
@@ -99,8 +110,8 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
     private onSaveSuccess() {
         this.isSaving = false;
         this.eventManager.broadcast({
-            name: 'convertPassusLogListModification',
-            content: 'Deleted an passusLog'
+            name: 'fileListModification',
+            content: 'Deleted an file'
         });
     }
 

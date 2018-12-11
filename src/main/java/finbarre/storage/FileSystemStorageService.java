@@ -84,4 +84,13 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Could not initialize storage", e);
         }
     }
+
+	public void delete(String file) throws IOException {
+		
+		file="upload-dir/"+file;
+	    
+	    Path fileToDeletePath = Paths.get(file);
+	    Files.delete(fileToDeletePath);
+		
+	}
 }

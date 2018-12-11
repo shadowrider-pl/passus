@@ -31,4 +31,8 @@ export class SendFileToServerService {
         const options = createRequestOption(req);
         return this.http.get<String[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
+
+    delete(file: string): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${file}`, { observe: 'response' });
+    }
 }

@@ -1,6 +1,6 @@
 <div>
     <jhi-alert></jhi-alert>
-    <div class="alert alert-warning">
+    <div>
         <h3>
             <span jhiTranslate="passusApp.passusLog.sendFileToServer">sendFileToServer</span>
         </h3>
@@ -38,6 +38,15 @@
                 <table class="table table-bordered table-striped">
                     <tr *ngFor="let file of fileUploads">
                         <td>{{file}}</td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" (click)="deleteFile(file)"
+                                    queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
