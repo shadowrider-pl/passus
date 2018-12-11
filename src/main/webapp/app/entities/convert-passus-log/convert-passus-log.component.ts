@@ -9,7 +9,6 @@ import { IPassusLog } from 'app/shared/model/passus-log.model';
 import { PassusLogService } from '../passus-log/passus-log.service';
 import { ConvertPassusLogService } from './convert-passus-log.service';
 import { Observable } from 'rxjs';
-import { LogFilesService } from 'app/entities/convert-passus-log/log-files.service';
 
 @Component({
     selector: 'jhi-convert-passus-log',
@@ -33,48 +32,8 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
         private passusLogService: PassusLogService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
-        private principal: Principal,
-        private logFilesService: LogFilesService
+        private principal: Principal
     ) {}
-
-    selectFile(event) {
-        this.selectedFiles = event.target.files;
-    }
-
-    upload() {
-        this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.logFilesService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
-            if (event.type === HttpEventType.UploadProgress) {
-                this.progress.percentage = Math.round((100 * event.loaded) / event.total);
-            } else if (event instanceof HttpResponse) {
-                console.log('File is completely uploaded!');
-                this.eventManager.broadcast({
-                    name: 'filesListModification',
-                    content: 'Added file'
-                });
-            }
-        });
-
-        this.selectedFiles = undefined;
-        setTimeout(() => {
-            this.currentFileUpload = null;
-        }, 3000);
-    }
-
-    showFiles(enable: boolean) {
-        this.showFile = enable;
-        if (enable) {
-            this.fileUploads = null;
-            this.logFilesService.getFiles().subscribe(
-                (res: HttpResponse<String[]>) => {
-                    this.fileUploads = res.body;
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        }
-    }
 
     convertLog(log) {
         this.isSaving = false;
@@ -102,7 +61,6 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
         this.registerChangeInConvertPassusLogs();
-        this.registerChangeInLogFilesList();
     }
 
     ngOnDestroy() {
@@ -115,10 +73,6 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
 
     registerChangeInConvertPassusLogs() {
         this.eventSubscriber = this.eventManager.subscribe('convertPassusLogListModification', response => this.loadAll());
-    }
-
-    registerChangeInLogFilesList() {
-        this.eventSubscriber = this.eventManager.subscribe('filesListModification', response => this.showFiles(true));
     }
 
     private onError(errorMessage: string) {

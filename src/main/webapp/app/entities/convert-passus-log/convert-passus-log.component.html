@@ -1,51 +1,6 @@
 <div>
     <jhi-alert></jhi-alert>
-    <div class="alert alert-warning">
-        <h3>
-            <span jhiTranslate="passusApp.passusLog.sendFileToServer">sendFileToServer</span>
-        </h3>
-        <div *ngIf="currentFileUpload" class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-                {{progress.percentage}}%</div>
-        </div>
 
-        <label class="btn btn-default">
-            <input type="file" (change)="selectFile($event)">
-        </label>
-
-        <button class="btn btn-outline-success" [disabled]="!selectedFiles" (click)="upload()">
-            <fa-icon [icon]="'asterisk'"></fa-icon>
-            <span jhiTranslate="passusApp.passusLog.upload">upload</span>
-        </button>
-        <br>
-        <hr>
-        <div>
-            <button class="btn btn-info" *ngIf="showFile" (click)="showFiles(false)">
-                <span jhiTranslate="passusApp.passusLog.hideFiles">Hide Files</span>
-            </button>
-            <button class="btn btn-info" *ngIf="!showFile" (click)="showFiles(true)">
-                <span jhiTranslate="passusApp.passusLog.showFiles">Show Files</span>
-            </button>
-        </div>
-        <br>
-
-        <div [hidden]="!showFile">
-            <div class="">
-                <h3>
-                    <span jhiTranslate="passusApp.passusLog.listOfFiles">listOfFiles</span>
-                </h3>
-                <table class="table table-bordered table-striped">
-                    <tr *ngFor="let file of fileUploads">
-                        <td>{{file}}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-
-
-    <br/>
     <h2 id="page-heading">
         <span jhiTranslate="passusApp.convertPassusLog.home.title">Convert Passus Logs</span>
     </h2>
@@ -91,3 +46,4 @@
             </tbody>
         </table>
     </div>
+</div>
