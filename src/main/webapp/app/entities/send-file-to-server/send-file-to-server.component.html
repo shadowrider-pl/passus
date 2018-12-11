@@ -19,6 +19,10 @@
             <span jhiTranslate="passusApp.passusLog.upload">upload</span>
         </button>
         <br>
+        <br>
+        <div class="alert alert-warning">
+            <span jhiTranslate="passusApp.sendFileToServer.uploadInfo">uploadInfo</span>
+        </div>
         <hr>
         <div>
             <button class="btn btn-info" *ngIf="showFile" (click)="showFiles(false)">
@@ -40,10 +44,13 @@
                         <td>{{file}}</td>
                         <td class="text-right">
                             <div class="btn-group flex-btn-group-container">
-                                <button type="submit" (click)="deleteFile(file)"
-                                    queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                <button type="submit" (click)="deleteFile(file)" queryParamsHandling="merge" class="btn btn-danger btn-sm">
                                     <fa-icon [icon]="'times'"></fa-icon>
                                     <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                                <button type="submit" (click)="addLogsFromFile(file)" queryParamsHandling="merge" class="btn btn-success btn-sm">
+                                    <fa-icon [icon]="'plus'"></fa-icon>
+                                    <span class="d-none d-md-inline" jhiTranslate="passusApp.sendFileToServer.addLogsFromFileToDatabase">Delete</span>
                                 </button>
                             </div>
                         </td>

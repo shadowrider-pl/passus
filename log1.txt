@@ -1,1 +1,2 @@
-01.01.2000, 00:01; Thread-4] d.f.e.process.runtime.AbstractProcess; Could not delete pid file: /tmp/extract-281544b0-0c31-4ebc-925a-2534ec2efb1bextractmongod.pid
+2011-12-03T10:15:30; Thread-4] d.f.e.process.runtime.AbstractProcess; Could not delete pid file: /tmp/extract-281544b0-0c31-4ebc-925a-2534ec2efb1bextractmongod.pid
+2011-12-03T18:20:50; c.ehcache.core.Ehcache-usersByLogin ; Close successful.

@@ -37,7 +37,7 @@ public class FileSystemStorageServiceTests {
     @Before
     public void init() {
         properties.setLocation("target/test-classes/" + Math.abs(new Random().nextLong()));
-        service = new FileSystemStorageService(properties);
+        service = new FileSystemStorageService(properties, null);
         service.init();
     }
 

@@ -11,6 +11,7 @@ type EntityArrayResponseType = HttpResponse<String[]>;
 @Injectable({ providedIn: 'root' })
 export class SendFileToServerService {
     public resourceUrl = SERVER_API_URL + 'api/log-files';
+    public resourceUrlAddFromFile = SERVER_API_URL + 'api/log-files/add';
 
     constructor(private http: HttpClient) {}
 
@@ -34,5 +35,9 @@ export class SendFileToServerService {
 
     delete(file: string): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${file}`, { observe: 'response' });
+    }
+
+    addLogs(file: string): Observable<HttpResponse<any>> {
+        return this.http.get<any>(`${this.resourceUrlAddFromFile}/${file}`, { observe: 'response' });
     }
 }

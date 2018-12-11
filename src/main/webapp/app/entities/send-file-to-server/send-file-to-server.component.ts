@@ -29,12 +29,23 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
         private sendFileToServerService: SendFileToServerService
     ) {}
 
+    addLogsFromFile(file) {
+        const lastIndex = file.lastIndexOf('/');
+        file = file.substring(lastIndex + 1);
+        this.sendFileToServerService.addLogs(file).subscribe(response => {
+            this.eventManager.broadcast({
+                name: 'filesListModification',
+                content: 'Deleted an file'
+            });
+        });
+    }
+
     deleteFile(file) {
         const lastIndex = file.lastIndexOf('/');
         file = file.substring(lastIndex + 1);
         this.sendFileToServerService.delete(file).subscribe(response => {
             this.eventManager.broadcast({
-                name: 'fileListModification',
+                name: 'filesListModification',
                 content: 'Deleted an file'
             });
         });
@@ -110,7 +121,7 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
     private onSaveSuccess() {
         this.isSaving = false;
         this.eventManager.broadcast({
-            name: 'fileListModification',
+            name: 'filesListModification',
             content: 'Deleted an file'
         });
     }
