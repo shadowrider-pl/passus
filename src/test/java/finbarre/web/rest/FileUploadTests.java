@@ -1,6 +1,7 @@
 package finbarre.web.rest;
 
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.hamcrest.Matchers;
@@ -19,53 +20,166 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import finbarre.storage.FileSystemStorageService;
 import finbarre.storage.StorageFileNotFoundException;
 import finbarre.storage.StorageService;
+import finbarre.domain.PassusLog;
+import finbarre.repository.PassusLogRepository;
+import finbarre.service.PassusLogService;
+import finbarre.web.rest.errors.ExceptionTranslator;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.util.List;
+
+import static finbarre.web.rest.TestUtil.sameInstant;
+import static finbarre.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import finbarre.PassusApp;
+
+import finbarre.domain.PassusLog;
+import finbarre.repository.PassusLogRepository;
+import finbarre.service.PassusLogService;
+import finbarre.web.rest.errors.ExceptionTranslator;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.util.List;
+
+import static finbarre.web.rest.TestUtil.sameInstant;
+import static finbarre.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Test class for the PassusLogResource REST controller.
+ *
+ * @see PassusLogResource
+ */
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
 @SpringBootTest
 public class FileUploadTests {
 
-    @Autowired
-    private MockMvc mvc;
+	private static final ZonedDateTime DEFAULT_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+	private static final ZonedDateTime UPDATED_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    @MockBean
-    private StorageService storageService;
+	private static final String DEFAULT_NAME = "AAAAAAAAAA";
+	private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    @Test
-    public void shouldListAllFiles() throws Exception {
-        given(this.storageService.loadAll())
-                .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
+	private static final String DEFAULT_VALUE = "AAAAAAAAAA";
+	private static final String UPDATED_VALUE = "BBBBBBBBBB";
 
-        this.mvc.perform(get("/")).andExpect(status().isOk())
-                .andExpect(model().attribute("files",
-                        Matchers.contains("http://localhost/files/first.txt",
-                                "http://localhost/files/second.txt")));
-    }
+	@Autowired
+	private PassusLogRepository passusLogRepository;
 
-    @Test
-    public void shouldSaveUploadedFile() throws Exception {
-        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
-                "text/plain", "Spring Framework".getBytes());
-        this.mvc.perform(fileUpload("/").file(multipartFile))
-                .andExpect(status().isFound())
-                .andExpect(header().string("Location", "/"));
+	@Autowired
+	private PassusLogService passusLogService;
 
-        then(this.storageService).should().store(multipartFile);
-    }
+	@Autowired
+	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void should404WhenMissingFile() throws Exception {
-        given(this.storageService.loadAsResource("test.txt"))
-                .willThrow(StorageFileNotFoundException.class);
+	@Autowired
+	private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-        this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
-    }
+	@Autowired
+	private ExceptionTranslator exceptionTranslator;
 
+	@MockBean
+	private FileSystemStorageService storageService;
+
+	private MockMvc mvc;
+
+	private PassusLog passusLog;
+
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		final FileUploadController fileUploadController = new FileUploadController(storageService);
+		this.mvc = MockMvcBuilders.standaloneSetup(fileUploadController)
+				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
+				.setConversionService(createFormattingConversionService()).setMessageConverters(jacksonMessageConverter)
+				.build();
+	}
+
+
+	 @Test
+	    public void shouldListAllFiles() throws Exception {
+	        given(this.storageService.loadAll())
+	                .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
+
+	        this.mvc.perform(get("/api/log-files")).andExpect(status().isOk())
+	                .andExpect(model().attribute("files",
+	                        Matchers.contains("http://localhost:8080/api/log-files/first.txt",
+	                                "http://localhost:8080/api/log-files/second.txt")));
+	    }
+
+//	@Test
+//	public void shouldStoreAndListAllFiles() throws Exception {
+//
+//		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt", "text/plain",
+//				"Spring Framework".getBytes());
+//		MockMultipartFile multipartFile2 = new MockMultipartFile("file", "test2.txt", "text/plain",
+//				"Spring Framework".getBytes());
+//		
+//		storageService.store(multipartFile);
+//		storageService.store(multipartFile2);
+//
+////        List<String> fileNames = storageService.loadAll().map(
+////                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+////                        "getFile", path.getFileName().toString()).build().toString())
+////                .collect(Collectors.toList());
+//
+////		given(this.storageService.loadAll()).willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
+//
+//		mvc.perform(get("/api/log-files")).andExpect(status().isOk());
+//		
+////		.andExpect(model().attribute("files", Matchers
+////				.contains("http://localhost/api/log-files/first.txt", "http://localhost/api/log-files/second.txt")));
+//	}
+//
+//	@SuppressWarnings("unchecked")
+//	@Test
+//	public void should404WhenMissingFile() throws Exception {
+//		given(this.storageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
+//
+//		this.mvc.perform(get("/log-files/test.txt")).andExpect(status().isNotFound());
+//	}
 }

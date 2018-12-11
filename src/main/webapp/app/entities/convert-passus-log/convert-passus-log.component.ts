@@ -50,6 +50,10 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
                 this.progress.percentage = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
                 console.log('File is completely uploaded!');
+                this.eventManager.broadcast({
+                    name: 'filesListModification',
+                    content: 'Added file'
+                });
             }
         });
 
@@ -61,8 +65,8 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
 
     showFiles(enable: boolean) {
         this.showFile = enable;
-
         if (enable) {
+            this.fileUploads = null;
             this.logFilesService.getFiles().subscribe(
                 (res: HttpResponse<String[]>) => {
                     this.fileUploads = res.body;
@@ -98,6 +102,7 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
         this.registerChangeInConvertPassusLogs();
+        this.registerChangeInLogFilesList();
     }
 
     ngOnDestroy() {
@@ -110,6 +115,10 @@ export class ConvertPassusLogComponent implements OnInit, OnDestroy {
 
     registerChangeInConvertPassusLogs() {
         this.eventSubscriber = this.eventManager.subscribe('convertPassusLogListModification', response => this.loadAll());
+    }
+
+    registerChangeInLogFilesList() {
+        this.eventSubscriber = this.eventManager.subscribe('filesListModification', response => this.showFiles(true));
     }
 
     private onError(errorMessage: string) {

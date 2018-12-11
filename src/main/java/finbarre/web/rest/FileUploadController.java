@@ -45,7 +45,6 @@ public class FileUploadController {
     @Timed
 	public  ResponseEntity<List<String>> getListFiles() {
 		log.debug("REST request to get all files.");
-        
         List<String> fileNames = storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "getFile", path.getFileName().toString()).build().toString())
