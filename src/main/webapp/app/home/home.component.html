@@ -29,9 +29,20 @@
             <div class="alert alert-warning" *ngSwitchCase="true">
                 <a class="nav-link" routerLink="send-file-to-server">
                     <span id="home-convert" *ngIf="account" jhiTranslate="passusApp.passusLog.sendFileToServer">
-                        Convert Your logs now! </span>
+                        Send File To Server </span>
                 </a>
             </div>
+            <div class="alert alert-danger" *ngSwitchCase="true" (click)="downloadLogs()">
+                <a class="nav-link">
+                    <span id="home-convert" *ngIf="account" jhiTranslate="home.downloadLogs">
+                        Generate file </span>
+                </a>
+                <a class="nav-link" *ngIf="fileGenerated">
+                    <span id="home-convert" *ngIf="account" jhiTranslate="home.downloadLogs">
+                        download </span>
+                </a>
+            </div>
+
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" translateValues="{username: '{{account.login}}'}">
                     You are logged in as user "{{account.login}}". </span>

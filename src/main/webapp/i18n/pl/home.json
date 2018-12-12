@@ -16,6 +16,7 @@
         "like": "Jeśli lubisz JHipster, nie zapomnij dać nam gwiazdki na",
         "github": "GitHubie",
         "convertYourLogs": "Przekształć swoje logi teraz!",
-        "viewYourLogs": "Zobacz swoje logi"
+        "viewYourLogs": "Zobacz swoje logi",
+        "downloadLogs": "Pobierz logi"
     }
 }

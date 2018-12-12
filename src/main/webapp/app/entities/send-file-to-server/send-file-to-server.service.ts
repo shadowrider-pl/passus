@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -12,6 +12,7 @@ type EntityArrayResponseType = HttpResponse<String[]>;
 export class SendFileToServerService {
     public resourceUrl = SERVER_API_URL + 'api/log-files';
     public resourceUrlAddFromFile = SERVER_API_URL + 'api/log-files/add';
+    public resourceDownloadUrl = SERVER_API_URL + 'api/get-log-file';
 
     constructor(private http: HttpClient) {}
 

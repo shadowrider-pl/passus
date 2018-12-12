@@ -6,6 +6,7 @@ import { Principal } from 'app/core';
 import { IPassusLog } from 'app/shared/model/passus-log.model';
 import { PassusLogService } from '../passus-log/passus-log.service';
 import { SendFileToServerService } from 'app/entities/send-file-to-server/send-file-to-server.service';
+import { DownloadLogsService } from 'app/entities/download-logs/download-logs.service';
 
 @Component({
     selector: 'jhi-send-file-to-server',
@@ -22,11 +23,11 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
     fileUploads: String[];
 
     constructor(
-        private passusLogService: PassusLogService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal,
-        private sendFileToServerService: SendFileToServerService
+        private sendFileToServerService: SendFileToServerService,
+        private downloadLogsService: DownloadLogsService
     ) {}
 
     addLogsFromFile(file) {
@@ -90,12 +91,12 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
         }
     }
 
-    loadAll() {
-        this.showFiles(true);
-    }
+    // loadAll() {
+    //     this.showFiles(true);
+    // }
 
     ngOnInit() {
-        this.loadAll();
+        // this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
