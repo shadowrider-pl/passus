@@ -1,3 +1,3 @@
-export * from './convert-passus-log.service';
-export * from './convert-passus-log.component';
-export * from './convert-passus-log.route';
+export * from './send-file-to-server.service';
+export * from './send-file-to-server.component';
+export * from './send-file-to-server.route';
