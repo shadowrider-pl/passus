@@ -21,6 +21,7 @@ Works:
 
 The following solution was proposed:
 
+```java
 class PassusLog {
 
     ZonedDateTime time;
@@ -47,9 +48,10 @@ class LogConverter implements LogInterface{
 	}
 	[...]
 }
-
+```
 class that retrieves a data record from the database and converts it
 
+```java
 class DBConv {
 
      // get the record from the database
@@ -61,9 +63,10 @@ class DBConv {
      PassusLog logConverted = LogConverter.convertLog (logFromDB);
 
 }
-
+```
 the moment comes when you need to add a new data source to transform - from a file
 
+```java
 class FileConv {
 
      // open the file;
@@ -77,26 +80,26 @@ class FileConv {
      PassusLog logConverted = LogConverter.convertLog (logFromDB);
 
 }
-
+```
 The solution of the task has been accepted, so I additionally proposed a full application that performs all the activities discussed in the task. The program uses Java, Spring, Angular, and JHipster technologies.
 
 
 # Application description
 The application is based on Spring Boot and the MongoDB database on the backend and Angular on the frontend using the JHipster generator. The user accessing the program through a web browser. There are two language versions available: English and Polish. The main purpose of the program is to support logs. There are two users available - user and admin with different roles and default passwords.
 Current application functions:
-     1. browsing logs
-     2. creating logs
-     3. converting logs
-     4. sending log files to the server with the possibility of saving their contents to the database
-     5. downloading a file with logs downloaded from the database
-
-     6. converting logs from a file and downloading a file with changed logs, without writing to the database
+1. browsing logs
+2. creating logs
+3. converting logs
+4. sending log files to the server with the possibility of saving their contents to the database
+5. downloading a file with logs downloaded from the database
+6. converting logs from a file and downloading a file with changed logs, without writing to the database
 
 These functions are available from the main page after logging in.
 
 
 # Application structure
 In / src / main / java / finbarre / domain / there is an Entity PassusLog created with fields:
+```java
    @Id
     private String id;
 
@@ -109,7 +112,7 @@ In / src / main / java / finbarre / domain / there is an Entity PassusLog create
 
     @Field ( "value")
     private String value;
-
+```
 In / src / main / java / finbarre / service / PassusLogService is an interface to support basic CRUD operations to the database.
 W / src / main / java / finbarre / web / rest / there are classes responsible for handling REST, including PassusLogResource implementing PassusLogService to handle logs.
 In addition, there is also the PassusLogServiceImpl class implementing PassusLogService, used to handle logs through calls other than REST. Access to the database is specified in /src/main/resources/config/application-dev.yml and application-prod.yml [currently as
