@@ -5,6 +5,7 @@
             "created": "Logs are added to databasse",
             "updated": "There were some problems",
             "addLogsFromFileToDatabase": "Add logs from file",
+            "convertAndDownload": "Convert and Download",
             "uploadInfo": "Each line of log must be in format: [time; name; value], with ';' as a separator. Time must be in ISO_DATE_TIME format, ie.:'2011-12-03T18:20:50'"
         }
     }

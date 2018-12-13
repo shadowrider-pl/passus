@@ -1,0 +1,1 @@
+2011-12-03T10:15:30+01:00[Europe/Warsaw]; Thread-4] d.f.e.process.runtime.AbstractProcess; Could not delete pid file: /tmp/extract-281544b0-0c31-4ebc-925a-2534ec2efb1bextractmongod.pid [STATUS= CHECKED]2011-12-03T18:20:50+01:00[Europe/Warsaw]; c.ehcache.core.Ehcache-usersByLogin ; Close successful. [STATUS= CHECKED]

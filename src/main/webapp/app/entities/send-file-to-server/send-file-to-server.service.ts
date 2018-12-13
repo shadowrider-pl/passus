@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
+import { saveAs } from '../../../../../../node_modules/file-saver/dist/FileSaver';
 
 type EntityResponseType = HttpEvent<{}>;
 type EntityArrayResponseType = HttpResponse<String[]>;
@@ -13,8 +14,16 @@ export class SendFileToServerService {
     public resourceUrl = SERVER_API_URL + 'api/log-files';
     public resourceUrlAddFromFile = SERVER_API_URL + 'api/log-files/add';
     public resourceDownloadUrl = SERVER_API_URL + 'api/get-log-file';
+    public convertAndDownloadUrl = SERVER_API_URL + 'api/convert-and-download';
 
     constructor(private http: HttpClient) {}
+
+    convertAndDownload(file: string): any {
+        return this.http.get<any>(`${this.convertAndDownloadUrl}/${file}`, { responseType: 'blob' as 'json' }).subscribe(res => {
+            const fileBlob = new Blob([res], { type: 'text/plain' });
+            saveAs(fileBlob, 'converted-' + file);
+        });
+    }
 
     pushFileToStorage(file: File): Observable<EntityResponseType> {
         const formdata: FormData = new FormData();

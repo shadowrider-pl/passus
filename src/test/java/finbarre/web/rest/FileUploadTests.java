@@ -132,7 +132,7 @@ public class FileUploadTests {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		final FileUploadController fileUploadController = new FileUploadController(storageService);
+		final FileUploadController fileUploadController = new FileUploadController(storageService, null);
 		this.mvc = MockMvcBuilders.standaloneSetup(fileUploadController)
 				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
 				.setConversionService(createFormattingConversionService()).setMessageConverters(jacksonMessageConverter)

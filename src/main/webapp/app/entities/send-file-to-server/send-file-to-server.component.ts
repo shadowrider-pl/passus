@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Principal } from 'app/core';
 import { IPassusLog } from 'app/shared/model/passus-log.model';
-import { PassusLogService } from '../passus-log/passus-log.service';
 import { SendFileToServerService } from 'app/entities/send-file-to-server/send-file-to-server.service';
 import { DownloadLogsService } from 'app/entities/download-logs/download-logs.service';
 
@@ -29,6 +28,12 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
         private sendFileToServerService: SendFileToServerService,
         private downloadLogsService: DownloadLogsService
     ) {}
+
+    convertAndDownload(file) {
+        const lastIndex = file.lastIndexOf('/');
+        file = file.substring(lastIndex + 1);
+        this.sendFileToServerService.convertAndDownload(file);
+    }
 
     addLogsFromFile(file) {
         const lastIndex = file.lastIndexOf('/');
@@ -91,12 +96,7 @@ export class SendFileToServerComponent implements OnInit, OnDestroy {
         }
     }
 
-    // loadAll() {
-    //     this.showFiles(true);
-    // }
-
     ngOnInit() {
-        // this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });

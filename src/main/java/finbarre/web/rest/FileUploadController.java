@@ -31,6 +31,7 @@ import com.codahale.metrics.annotation.Timed;
 import finbarre.domain.PassusLog;
 import finbarre.storage.FileSystemStorageService;
 import finbarre.storage.StorageFileNotFoundException;
+import finbarre.storage.WriteLogsToFileService;
 import finbarre.web.rest.util.HeaderUtil;
 
 @Controller
@@ -40,10 +41,32 @@ public class FileUploadController {
 	private final FileSystemStorageService storageService;
 
 	private final Logger log = LoggerFactory.getLogger(FileUploadController.class);
+	WriteLogsToFileService writeLogsToFileService;
 
 	@Autowired
-	public FileUploadController(FileSystemStorageService storageService) {
+	public FileUploadController(FileSystemStorageService storageService,
+			WriteLogsToFileService writeLogsToFileService) {
 		this.storageService = storageService;
+		this.writeLogsToFileService = writeLogsToFileService;
+	}
+
+	/**
+	 * GET /passus-logs/get-file : get PassusLogs file.
+	 *
+	 * @return the ResponseEntity with status 200 (OK)
+	 * @throws IOException 
+	 */
+	@GetMapping("/convert-and-download/{sourceFileName}")
+	@Timed
+	@ResponseBody
+	public ResponseEntity<Object> convertAndDowloadPassusLogsFile(@PathVariable String sourceFileName) throws IOException {
+		log.debug("REST request to get PassusLogs file.");
+		String destinationFileName = "converted" + sourceFileName;
+        boolean convert = true;
+		ResponseEntity<Object> respEntity = writeLogsToFileService.
+				prepareFileToDownload(sourceFileName, destinationFileName, convert);
+
+		return respEntity;
 	}
 
 	/**

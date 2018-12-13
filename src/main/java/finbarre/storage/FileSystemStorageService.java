@@ -25,6 +25,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -36,6 +37,7 @@ public class FileSystemStorageService implements StorageService {
 
 	private final Logger log = LoggerFactory.getLogger(FileSystemStorageService.class);
 	private final PassusLogService passusLogService;
+	boolean passed = true;
 
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties, PassusLogService passusLogService) {
@@ -112,11 +114,19 @@ public class FileSystemStorageService implements StorageService {
 	public boolean addLogsFromFile(String file) throws IOException, URISyntaxException {
 
 		log.debug("Request to add logs from file : {}", file);
+
+		List<PassusLog> readLogsFromFile = readLogsFromFile(file);
+		for (PassusLog log : readLogsFromFile) {
+			passusLogService.save(log);
+		}
+		return passed;
+	}
+
+	public List<PassusLog> readLogsFromFile(String file) throws IOException {
 		file = "upload-dir/" + file;
 		Path filePath = Paths.get(file);
-		boolean passed = true;
-
 		List<String> logLines = Files.readAllLines(filePath);
+		List<PassusLog> logsRead = new ArrayList<>();
 		for (String line : logLines) {
 			String[] fields = line.split(";");
 			PassusLog passusLog = new PassusLog();
@@ -128,13 +138,12 @@ public class FileSystemStorageService implements StorageService {
 				passusLog.setTime(time);
 				passusLog.setName(fields[1]);
 				passusLog.setValue(fields[2]);
-
-				passusLogService.save(passusLog);
+				logsRead.add(passusLog);
 			} catch (DateTimeParseException e) {
 				passed = false;
 				log.debug("DateTimeParseException ocurred");
 			}
 		}
-		return passed;
+		return logsRead;
 	}
 }

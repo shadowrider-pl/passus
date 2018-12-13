@@ -1,0 +1,6 @@
+2018-01-02T01:01+01:00[Europe/Warsaw];[  XNIO-2 task-5] finbarre.web.rest.PassusLogResource      :;REST request to get all PassusLogs [STATUS= CHECKED]
+2018-01-01T01:01+01:00[Europe/Warsaw];[ XNIO-2 task-29] finbarre.aop.logging.LoggingAspect  ;Exit: finbarre.service.impl.PassusLogServiceImpl.findAll() with result = [PassusLog{id=5c0a1722b0a6ba41ff801f49, time='2018-01-02T01:01+01:00[Europe/Warsaw]', name='[  XNIO-2 task-5] finbarre.web.rest.PassusLogResource      :', value='REST request to get all PassusLogs'}] [STATUS= CHECKED]
+2019-01-01T02:02+01:00[Europe/Warsaw];[ XNIO-2 task-32] finbarre.aop.logging.LoggingAspect ;Exit: finbarre.web.rest.AccountResource.getAccount() with result = UserDTO{login='user', firstName='', lastName='User', email='user@localhost', imageUrl='null', activated=true, langKey='en', createdBy=system, createdDate=2018-12-07T06:43:01.511Z, lastModifiedBy='system', lastModifiedDate=2018-12-07T06:43:01.512Z, authorities=[ROLE_USER]}
+2222-01-02T01:22+01:00[Europe/Warsaw];xxx;zzzzzzzzzzzzzzzz
+2011-12-03T10:15:30+01:00[Europe/Warsaw]; Thread-4] d.f.e.process.runtime.AbstractProcess; Could not delete pid file: /tmp/extract-281544b0-0c31-4ebc-925a-2534ec2efb1bextractmongod.pid
+2011-12-03T18:20:50+01:00[Europe/Warsaw]; c.ehcache.core.Ehcache-usersByLogin ; Close successful.
