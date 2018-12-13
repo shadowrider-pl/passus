@@ -80,6 +80,7 @@ class FileConv {
 
 The solution of the task has been accepted, so I additionally proposed a full application that performs all the activities discussed in the task. The program uses Java, Spring, Angular, and JHipster technologies.
 
+
 # Application description
 The application is based on Spring Boot and the MongoDB database on the backend and Angular on the frontend using the JHipster generator. The user accessing the program through a web browser. There are two language versions available: English and Polish. The main purpose of the program is to support logs. There are two users available - user and admin with different roles and default passwords.
 Current application functions:
@@ -88,7 +89,11 @@ Current application functions:
      3. converting logs
      4. sending log files to the server with the possibility of saving their contents to the database
      5. downloading a file with logs downloaded from the database
+<<<<<<< HEAD
      6. converting logs from a file and downloading a file with changed logs, without writing to the database
+=======
+6. converting logs from a file and downloading a file with changed logs, without writing to the database
+>>>>>>> b042c146258f1dfb243164cf35446b08360f75c3
 These functions are available from the main page after logging in.
 
 
