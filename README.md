@@ -89,11 +89,9 @@ Current application functions:
      3. converting logs
      4. sending log files to the server with the possibility of saving their contents to the database
      5. downloading a file with logs downloaded from the database
-<<<<<<< HEAD
+
      6. converting logs from a file and downloading a file with changed logs, without writing to the database
-=======
-6. converting logs from a file and downloading a file with changed logs, without writing to the database
->>>>>>> b042c146258f1dfb243164cf35446b08360f75c3
+
 These functions are available from the main page after logging in.
 
 
